@@ -54,10 +54,6 @@ def main():
         formula_text = create_formula(base_text, combination)
         if eval(formula_text) == True:
             print(formula_text)
-
-
-    
-        
-
+            
 if __name__ == "__main__":
     main()
