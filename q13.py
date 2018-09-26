@@ -1,5 +1,7 @@
 import math
 import itertools
+import inspect
+
 
 remove_list = ["+", "="]
 base_text = "read+write+talk=skill"
@@ -15,24 +17,45 @@ def create_spell_list(base_text):
     return text_list
 
 def calc_minus(n):
-    return n - 1
+    return n + 1
 
-def char_start_index(base_text):
+def start_chars(base_text):
     indexies = []
     for v in remove_list:
         buf = my_index_multi(base_text, v)
         indexies.extend(buf)
-    return map(calc_minus, indexies)
+    
+    points = map(calc_minus, indexies)
+    char_list =[]
+    for v in points:
+        char_list.append(base_text[v])
+    char_list.append(base_text[0])
+    return char_list
+
+def char_start_zero(vals, ngs):
+    numbers = [ i[1] for i in vals if i[0] in ngs]
+    return any([i == 0 for i in numbers]) 
+
+def create_formula(text, combination):
+    result_text = text
+    for v in combination:
+        result_text = result_text.replace(v[0], str(v[1]))    
+    result_text =result_text.replace("=", "==")    
+    return result_text
 
 def main():
     text_list = create_spell_list(base_text)
-    char_indeies = char_start_index(base_text)
+    ng_char = start_chars(base_text)
     numbers = [idx for idx in range(10)]
     for v in itertools.permutations(numbers, len(text_list)):
-        combination = zip(text_list, v)
-        print(combination[0])
-        break
-    
+        combination = list(zip(text_list, v))
+        if char_start_zero(combination, ng_char):
+            continue
+        formula_text = create_formula(base_text, combination)
+        if eval(formula_text) == True:
+            print(formula_text)
+
+
     
         
 
