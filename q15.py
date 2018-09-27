@@ -13,10 +13,7 @@ def move(a_pos, b_pos):
             cnt += move(a_pos + step_a, b_pos - step_b)
 
     return cnt
-
-
-
-
+    
 def main():
     print(move(0, stairs))
             
